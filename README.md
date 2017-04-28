@@ -2,7 +2,7 @@
 __By: Michael Bateman and Troy Boydell__
 ## About
 
-_This project is still a work in project (WIP) so this is not the final product.  Look below for the _
+_This project is still a work in project (WIP) so this is not the final product.  Look below for the update/change log_
 
 Made during a grade 9 computer science class.
 
