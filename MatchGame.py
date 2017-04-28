@@ -34,6 +34,9 @@ class MatchGame:
 		font3 = pygame.font.Font(None,40)
 		# Can be added on OLPC to load other fonts
 		#pygame.font.SysFont()
+		file = open("highscore.txt", "r")
+		self.highscore = file.read()
+		file.close()
 		wait = True
 		while wait:
 			screen.fill((255,255,255))
@@ -41,6 +44,7 @@ class MatchGame:
 			screen.blit(font1.render(startmsg, True, (0, 0, 0)),(150,50))
 			screen.blit(font2.render("Press 's' to start", True, (0, 0, 0)),(150,150))
 			screen.blit(font2.render("Press 'q' to quit", True, (0, 0, 0)),(150,250))
+			screen.blit(font2.render("Highscore: " + self.highscore, True, (0,0,0)), (900,150))
 			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
 			pygame.display.flip()
 			for event in pygame.event.get():
@@ -63,7 +67,8 @@ class MatchGame:
 		textRect.y = 50
 		score = 0
 		gmround = 0
-		while gmround <= 10:
+		self.highscore = int(self.highscore)
+		while gmround <= 10: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
 			gmround += 1
 
 			#while Gtk.events_pending():
@@ -100,6 +105,10 @@ class MatchGame:
 
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
+						if score >= self.highscore:
+							file = open("highscore.txt", "w")
+							file.write(str(score))
+							file.close()
 						return
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
 						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1]:
@@ -107,8 +116,15 @@ class MatchGame:
 							score += 1
 						else:
 							keepwaiting = False
+		if score >= self.highscore:
+			file = open("highscore.txt", "w")
+			file.write(str(score))
+			file.close()
+			highscoremessage = True
 						
-
+	def highScoreMessage(self):
+		pass
+		#There will be a screen congratulating the user of his/her new high score
 
 def main():
 	pygame.init()
@@ -117,6 +133,9 @@ def main():
 	game = MatchGame()
 	game.startScreen()
 	game.run()
+	if game.highscoremessage == True:
+		pass
+		#Run Highscore Message
 
 if __name__ == '__main__':
 	main()
