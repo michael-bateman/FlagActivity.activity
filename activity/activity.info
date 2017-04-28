@@ -1,0 +1,6 @@
+[Activity]
+name = MatchActivity
+bundle_id = org.sugarlabs.MatchActivity
+exec = sugar-activity MatchActivity.MatchActivity
+icon = activity-generic
+activity_version = 1
