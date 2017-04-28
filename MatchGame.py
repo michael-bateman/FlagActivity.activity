@@ -3,6 +3,7 @@ import pygame
 import os
 import random
 import sys
+import time #only for testing
 from Photo import Photo
 #from gi.repository import Gtk
 
@@ -120,10 +121,22 @@ class MatchGame:
 			file = open("highscore.txt", "w")
 			file.write(str(score))
 			file.close()
-			highscoremessage = True
+			self.highscoremessage = True
 						
 	def highScoreMessage(self):
-		pass
+		file = open("highscore.txt", "r")
+		highscore = file.read()
+		file.close()
+		screen = pygame.display.get_surface()
+		screen.fill((255,255,255))
+		font1 = pygame.font.Font(None,150)
+		font2 = pygame.font.Font(None,75)
+		screen.blit(font1.render("NEW HIGH SCORE!", True, (0, 0, 0)),(150,50))
+		screen.blit(font1.render("Your new high score is " + highscore, True, (0, 0, 0)),(150,200))
+		pygame.display.flip()
+		time.sleep(10)
+
+
 		#There will be a screen congratulating the user of his/her new high score
 
 def main():
@@ -134,7 +147,7 @@ def main():
 	game.startScreen()
 	game.run()
 	if game.highscoremessage == True:
-		pass
+		game.highScoreMessage()
 		#Run Highscore Message
 
 if __name__ == '__main__':
