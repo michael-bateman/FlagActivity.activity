@@ -9,24 +9,6 @@ from Photo import Photo
 
 class MatchGame:
 
-	def getRandomHand(self):
-		keeptrying = True
-		while keeptrying:
-			disklocation = "students"
-			answer = random.choice(os.listdir(disklocation))
-			other = random.choice(os.listdir(disklocation))
-			another = random.choice(os.listdir(disklocation))
-			flag1 = Photo(os.path.abspath(disklocation + "/" + answer),answer[:-4],True)
-			flag2 = Photo(os.path.abspath(disklocation + "/" + other),answer[:-4],False)
-			flag3 = Photo(os.path.abspath(disklocation + "/" + another),answer[:-4],False)
-			if answer == ".DS_Store" or other == ".DS_Store" or another == ".DS_Store" or answer == other or answer == another or other == another:
-				pass
-			else:
-				keeptrying = False
-		returnlist = [flag1,flag2,flag3]
-		shuffledList = sorted(returnlist, key=lambda k: random.random())
-		return shuffledList
-
 	def startScreen(self):
 		startmsg = "FLAG MATCHING GAME"
 		screen = pygame.display.get_surface()
@@ -45,7 +27,7 @@ class MatchGame:
 			screen.blit(font1.render(startmsg, True, (0, 0, 0)),(150,50))
 			screen.blit(font2.render("Press 's' to start", True, (0, 0, 0)),(150,150))
 			screen.blit(font2.render("Press 'q' to quit", True, (0, 0, 0)),(150,250))
-			screen.blit(font2.render("Highscore: " + self.highscore, True, (0,0,0)), (900,150))
+			screen.blit(font2.render("Highscore: " + self.highscore, True, (0,0,0)), (1000,150))
 			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
 			pygame.display.flip()
 			for event in pygame.event.get():
@@ -56,7 +38,48 @@ class MatchGame:
 						wait = False
 					elif event.key == pygame.K_q:
 						sys.exit()
+		wait = True
+		while wait:
+			screen.fill((255,255,255))
+			screen.blit(pygame.image.load("resources/background.png"), (0,150))
+			screen.blit(font1.render("Level Selector", True, (0, 0, 0)),(150,50))
+			screen.blit(font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
+			screen.blit(font3.render("Level 1 - 3 flags", True, (0, 0, 0)), (150,250))
+			screen.blit(font3.render("Level 2 - 5 flags", True, (0, 0, 0)), (150,300))
+			screen.blit(font3.render("Level 3 - 10 flags", True, (0, 0, 0)), (150,350))
+			screen.blit(font3.render("Level 4 - 20 flags", True, (0, 0, 0)), (150,400))
+			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
+			pygame.display.flip()
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					sys.exit()
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_q:
+						wait = False
+					elif event.key == pygame.K_q:
+						sys.exit()
 
+
+
+	def getRandomHand(self):
+		keeptrying = True
+		while keeptrying:
+			disklocation = "students"
+			answer = random.choice(os.listdir(disklocation))
+			other = random.choice(os.listdir(disklocation))
+			another = random.choice(os.listdir(disklocation))
+			#final = random.choice(os.listdir(disklocation)) #adds 4 flags
+			flag1 = Photo(os.path.abspath(disklocation + "/" + answer),answer[:-4],True)
+			flag2 = Photo(os.path.abspath(disklocation + "/" + other),answer[:-4],False)
+			flag3 = Photo(os.path.abspath(disklocation + "/" + another),answer[:-4],False)
+			#flag4 = Photo(os.path.abspath(disklocation + "/" + final),answer[:-4],False) Adds 4 flags
+			if answer == ".DS_Store" or other == ".DS_Store" or another == ".DS_Store" or answer == other or answer == another or other == another:
+				pass
+			else:
+				keeptrying = False
+		returnlist = [flag1,flag2,flag3]
+		shuffledList = sorted(returnlist, key=lambda k: random.random())
+		return shuffledList
 
 	def run(self):
 		screen = pygame.display.get_surface()
@@ -134,8 +157,7 @@ class MatchGame:
 		screen.blit(font1.render("NEW HIGH SCORE!", True, (0, 0, 0)),(150,50))
 		screen.blit(font1.render("Your new high score is " + highscore, True, (0, 0, 0)),(150,200))
 		pygame.display.flip()
-		time.sleep(10)
-
+		time.sleep(10) #for testing only
 
 		#There will be a screen congratulating the user of his/her new high score
 
@@ -150,5 +172,5 @@ def main():
 		game.highScoreMessage()
 		#Run Highscore Message
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	main()
