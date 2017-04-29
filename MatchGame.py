@@ -39,25 +39,39 @@ class MatchGame:
 					elif event.key == pygame.K_q:
 						sys.exit()
 		wait = True
+		invalid = False
 		while wait:
 			screen.fill((255,255,255))
 			screen.blit(pygame.image.load("resources/background.png"), (0,150))
 			screen.blit(font1.render("Level Selector", True, (0, 0, 0)),(150,50))
 			screen.blit(font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
-			screen.blit(font3.render("Level 1 - 3 flags", True, (0, 0, 0)), (150,250))
-			screen.blit(font3.render("Level 2 - 5 flags", True, (0, 0, 0)), (150,300))
-			screen.blit(font3.render("Level 3 - 10 flags", True, (0, 0, 0)), (150,350))
-			screen.blit(font3.render("Level 4 - 20 flags", True, (0, 0, 0)), (150,400))
-			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
+			screen.blit(font3.render("Level 1 (Easy) - 3 flags", True, (0, 0, 0)), (150,250))
+			screen.blit(font3.render("Level 2 (Medium) - 4 flags", True, (0, 0, 0)), (150,300))
+			screen.blit(font3.render("Level 3 (Hard) - 5 flags", True, (0, 0, 0)), (150,350))
+			screen.blit(font3.render("Level 4 (Very Hard) - 10 flags", True, (0, 0, 0)), (150,400))
+			if invalid == True:
+				screen.blit(font2.render("Invalid selection", True, (255, 0, 0)), (400,600))
 			pygame.display.flip()
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					sys.exit()
 				elif event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_q:
+					if event.key == pygame.K_1:
+						self.level = 1
+						wait = False
+					elif event.key == pygame.K_2:
+						self.level = 2
+						wait = False
+					elif event.key == pygame.K_3:
+						self.level = 3
+						wait = False
+					elif event.key == pygame.K_4:
+						self.level = 4
 						wait = False
 					elif event.key == pygame.K_q:
 						sys.exit()
+					else:
+						invalid = True
 
 
 
@@ -65,13 +79,16 @@ class MatchGame:
 		keeptrying = True
 		while keeptrying:
 			disklocation = "students"
-			answer = random.choice(os.listdir(disklocation))
-			other = random.choice(os.listdir(disklocation))
-			another = random.choice(os.listdir(disklocation))
+			if self.level == 1 or 2 or 3 or 4:
+				answer = random.choice(os.listdir(disklocation))
+				other = random.choice(os.listdir(disklocation))
+				another = random.choice(os.listdir(disklocation))
+			
 			#final = random.choice(os.listdir(disklocation)) #adds 4 flags
-			flag1 = Photo(os.path.abspath(disklocation + "/" + answer),answer[:-4],True)
-			flag2 = Photo(os.path.abspath(disklocation + "/" + other),answer[:-4],False)
-			flag3 = Photo(os.path.abspath(disklocation + "/" + another),answer[:-4],False)
+			if self.level == 1 or 2 or 3 or 4:
+				flag1 = Photo(os.path.abspath(disklocation + "/" + answer),answer[:-4],True)
+				flag2 = Photo(os.path.abspath(disklocation + "/" + other),answer[:-4],False)
+				flag3 = Photo(os.path.abspath(disklocation + "/" + another),answer[:-4],False)
 			#flag4 = Photo(os.path.abspath(disklocation + "/" + final),answer[:-4],False) Adds 4 flags
 			if answer == ".DS_Store" or other == ".DS_Store" or another == ".DS_Store" or answer == other or answer == another or other == another:
 				pass
@@ -107,7 +124,7 @@ class MatchGame:
 			for photo in photos:
 				if (photo.answer == True):
 					msg = photo.photoname
-					clickRect = [photoX,photoX+250]
+					clickRect = [photoX,photoX+125]
 				try:
 					newimg = pygame.image.load(photo.imgname)
 					screen.blit(newimg,(photoX,photoY))
@@ -144,7 +161,7 @@ class MatchGame:
 			file = open("highscore.txt", "w")
 			file.write(str(score))
 			file.close()
-			self.highscoremessage = True
+			self.highScoreMessage()
 						
 	def highScoreMessage(self):
 		file = open("highscore.txt", "r")
@@ -168,9 +185,6 @@ def main():
 	game = MatchGame()
 	game.startScreen()
 	game.run()
-	if game.highscoremessage == True:
-		game.highScoreMessage()
-		#Run Highscore Message
 
 if __name__ == "__main__":
 	main()
