@@ -15,6 +15,7 @@ Documentation is on it's way!
 - [ ] - Fix backgrounds (Troy and Michael)
 - [ ] - Do more programming work (Michael)
 - [ ] - Download all flags (can be found here: https://en.wikipedia.org/wiki/List_of_sovereign_states)
+- [ ] - Add sounds for correct/incorrect answers
 - [ ] - Lot's more
 
 ## Changelog
@@ -53,3 +54,9 @@ __Note:__ Michael is absent
   - Add some screens including the start screen
   - Did some debugging related to the `.DS_Store` file showing
   - Did some debugging so no 2 flags will show up at the same time
+  
+### Saturday April 29 - Out of class
+
+* Work on the start page
+* Experiment with more flags
+  - This will help so I can add different levels
