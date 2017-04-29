@@ -60,3 +60,4 @@ __Note:__ Michael is absent
 * Work on the start page
 * Experiment with more flags
   - This will help so I can add different levels
+* Partially adds in different levels
