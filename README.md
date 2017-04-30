@@ -57,7 +57,13 @@ __Note:__ Michael is absent
   
 ### Saturday April 29 - Out of class
 
-* Work on the start page
-* Experiment with more flags
+* Work on the start page (Michael)
+* Experiment with more flags (Michael)
   - This will help so I can add different levels
-* Partially adds in different levels
+* Partially adds in different levels (Michael)
+
+### Sunday April 30 - Out of Class
+
+* Get levels 1-3 up and working (Michael)
+* Got the y axis working for clicking (Michael)
+* Downloaded 10 new flags (Michael)

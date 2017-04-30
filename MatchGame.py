@@ -80,21 +80,43 @@ class MatchGame:
 		while keeptrying:
 			disklocation = "students"
 			if self.level == 1 or 2 or 3 or 4:
-				answer = random.choice(os.listdir(disklocation))
-				other = random.choice(os.listdir(disklocation))
-				another = random.choice(os.listdir(disklocation))
+				first = random.choice(os.listdir(disklocation))
+				second = random.choice(os.listdir(disklocation))
+				third = random.choice(os.listdir(disklocation))
+				flag1 = Photo(os.path.abspath(disklocation + "/" + first),first[:-4],True)
+				flag2 = Photo(os.path.abspath(disklocation + "/" + second),first[:-4],False)
+				flag3 = Photo(os.path.abspath(disklocation + "/" + third),first[:-4],False)
+			if self.level == 2 or 3 or 4:
+				fourth = random.choice(os.listdir(disklocation))
+				flag4 = Photo(os.path.abspath(disklocation + "/" + fourth),first[:-4],False)
+			if self.level == 3 or 4:
+				fifth = random.choice(os.listdir(disklocation))
+				flag5 = Photo(os.path.abspath(disklocation + "/" + fifth),first[:-4],False)
 			
 			#final = random.choice(os.listdir(disklocation)) #adds 4 flags
-			if self.level == 1 or 2 or 3 or 4:
-				flag1 = Photo(os.path.abspath(disklocation + "/" + answer),answer[:-4],True)
-				flag2 = Photo(os.path.abspath(disklocation + "/" + other),answer[:-4],False)
-				flag3 = Photo(os.path.abspath(disklocation + "/" + another),answer[:-4],False)
+
 			#flag4 = Photo(os.path.abspath(disklocation + "/" + final),answer[:-4],False) Adds 4 flags
-			if answer == ".DS_Store" or other == ".DS_Store" or another == ".DS_Store" or answer == other or answer == another or other == another:
-				pass
-			else:
-				keeptrying = False
-		returnlist = [flag1,flag2,flag3]
+			if self.level == 1:
+				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or first == second or first == third or second == third:
+					pass
+				else:
+					keeptrying = False
+					returnlist = [flag1,flag2,flag3]
+			elif self.level == 2:
+				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or first == second or first == third or first == fourth or second == third or second == fourth or third == fourth:
+					pass
+				else:
+					keeptrying = False
+					returnlist = [flag1,flag2,flag3,flag4]
+			elif self.level == 3:
+				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or fifth == ".DS_Store" or first == second or first == third or first == fourth or first == fifth or second == third or second == fourth or second == fifth or third == fourth or third == fifth or fourth == fifth:
+					pass
+				else:
+					keeptrying = False
+					returnlist = [flag1,flag2,flag3,flag4,flag5]
+			elif self.level == 4:
+				print("We have not fully programmed this level yet.  Please select levels from 1-3.  We apologize and hope you still enjoy our game.")
+				sys.exit()
 		shuffledList = sorted(returnlist, key=lambda k: random.random())
 		return shuffledList
 
@@ -128,7 +150,7 @@ class MatchGame:
 				try:
 					newimg = pygame.image.load(photo.imgname)
 					screen.blit(newimg,(photoX,photoY))
-					photoX = photoX + 250
+					photoX = photoX + 200
 				except:
 					print("Can not find image " + photo.imgname)
 
@@ -152,7 +174,7 @@ class MatchGame:
 							file.close()
 						return
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
-						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1]:
+						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
 							score += 1
 						else:
