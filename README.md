@@ -10,12 +10,13 @@ Documentation is on it's way!
 
 ## Things that still need to be done:
 
-- [ ] - Add in `.txt` score files
+- [x] - Add in `.txt` score files
 - [ ] - Change `.svg` logo
 - [ ] - Fix backgrounds (Troy and Michael)
 - [ ] - Do more programming work (Michael)
 - [ ] - Download all flags (can be found here: https://en.wikipedia.org/wiki/List_of_sovereign_states)
 - [ ] - Add sounds for correct/incorrect answers
+- [x] - Collect all flags (data) _- most collected, some are still remaining_
 - [ ] - Lot's more
 
 ## Changelog
@@ -67,3 +68,11 @@ __Note:__ Michael is absent
 * Get levels 1-3 up and working (Michael)
 * Got the y axis working for clicking (Michael)
 * Downloaded 10 new flags (Michael)
+
+### Monday May 1 - In class
+
+* Continuted programming (Michael)
+	- Added error texts when incorrect flags
+	- Changed all flag dimensions
+* Data collection (Troy)
+	- Collected most of the flags of countries

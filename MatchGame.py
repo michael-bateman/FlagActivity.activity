@@ -48,7 +48,7 @@ class MatchGame:
 			screen.blit(font3.render("Level 1 (Easy) - 3 flags", True, (0, 0, 0)), (150,250))
 			screen.blit(font3.render("Level 2 (Medium) - 4 flags", True, (0, 0, 0)), (150,300))
 			screen.blit(font3.render("Level 3 (Hard) - 5 flags", True, (0, 0, 0)), (150,350))
-			screen.blit(font3.render("Level 4 (Very Hard) - 10 flags", True, (0, 0, 0)), (150,400))
+			screen.blit(font3.render("Level 4 (Very Hard) - 7 flags", True, (0, 0, 0)), (150,400))
 			if invalid == True:
 				screen.blit(font2.render("Invalid selection", True, (255, 0, 0)), (400,600))
 			pygame.display.flip()
@@ -73,12 +73,10 @@ class MatchGame:
 					else:
 						invalid = True
 
-
-
 	def getRandomHand(self):
 		keeptrying = True
 		while keeptrying:
-			disklocation = "students"
+			disklocation = "flags"
 			if self.level == 1 or 2 or 3 or 4:
 				first = random.choice(os.listdir(disklocation))
 				second = random.choice(os.listdir(disklocation))
@@ -92,6 +90,11 @@ class MatchGame:
 			if self.level == 3 or 4:
 				fifth = random.choice(os.listdir(disklocation))
 				flag5 = Photo(os.path.abspath(disklocation + "/" + fifth),first[:-4],False)
+			if self.level == 4:
+				sixth = random.choice(os.listdir(disklocation))
+				flag6 = Photo(os.path.abspath(disklocation + "/" + sixth),first[:-4],False)
+				seventh = random.choice(os.listdir(disklocation))
+				flag7 = Photo(os.path.abspath(disklocation + "/" + seventh),first[:-4],False)
 			
 			#final = random.choice(os.listdir(disklocation)) #adds 4 flags
 
@@ -115,11 +118,13 @@ class MatchGame:
 					keeptrying = False
 					returnlist = [flag1,flag2,flag3,flag4,flag5]
 			elif self.level == 4:
-				print("We have not fully programmed this level yet.  Please select levels from 1-3.  We apologize and hope you still enjoy our game.")
-				sys.exit()
+				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or fifth == ".DS_Store" or sixth == ".DS_Store" or first == second or first == third or first == fourth or first == fifth or first == sixth or first == seventh or second == third or second == fourth or second == fifth or second == sixth or second == seventh or third == fourth or third == fifth or third == sixth or third == seventh or fourth == fifth or fourth == sixth or fourth == seventh or fifth == sixth or fifth == seventh or sixth == seventh:
+					pass
+				else:
+					keeptrying = False
+					returnlist = [flag1,flag2,flag3,flag4,flag5,flag6,flag7]
 		shuffledList = sorted(returnlist, key=lambda k: random.random())
 		return shuffledList
-
 	def run(self):
 		screen = pygame.display.get_surface()
 		font = pygame.font.Font(None, 75)
@@ -138,7 +143,7 @@ class MatchGame:
 			#	Gtk.main_iteration()
 
 			screen.fill((0,0,0))
-
+			widthofphoto = 125
 			photoX = 50
 			photoY = 200
 			photos = self.getRandomHand()
@@ -146,7 +151,7 @@ class MatchGame:
 			for photo in photos:
 				if (photo.answer == True):
 					msg = photo.photoname
-					clickRect = [photoX,photoX+125]
+					clickRect = [photoX,photoX+widthofphoto]
 				try:
 					newimg = pygame.image.load(photo.imgname)
 					screen.blit(newimg,(photoX,photoY))
@@ -157,7 +162,7 @@ class MatchGame:
 			text = font.render(msg, True, (250, 250, 250))
 			screen.blit(text,(textRect.x,textRect.y))
 			scoretext = font.render("Score: " + str(score), True, (250, 250, 250))
-			screen.blit(scoretext,(600,50))
+			screen.blit(scoretext,(800,50))
 			pygame.display.flip()
 
 			keepwaiting = True
@@ -176,9 +181,32 @@ class MatchGame:
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
 						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
+							screen.blit(font.render("Correct", True, (0,250,0)),(300,600))
+							pygame.display.flip()
+							wait = True
+							while wait:
+								for event in pygame.event.get():
+									if event.type == pygame.QUIT:
+										sys.exit()
+									elif event.type == pygame.MOUSEBUTTONDOWN:
+										wait = False
+									elif event.type == pygame.KEYDOWN:
+										wait = False
 							score += 1
 						else:
 							keepwaiting = False
+							screen.blit(font.render("Incorrect", True, (250,0,0)),(300,600))
+							pygame.display.flip()
+							wait = True
+							while wait:
+								for event in pygame.event.get():
+									if event.type == pygame.QUIT:
+										sys.exit()
+									elif event.type == pygame.MOUSEBUTTONDOWN:
+										wait = False
+									elif event.type == pygame.KEYDOWN:
+										wait = False
+
 		if score >= self.highscore:
 			file = open("highscore.txt", "w")
 			file.write(str(score))
