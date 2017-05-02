@@ -152,6 +152,7 @@ class MatchGame:
 				if (photo.answer == True):
 					msg = photo.photoname
 					clickRect = [photoX,photoX+widthofphoto]
+					answerX = clickRect[0]
 				try:
 					newimg = pygame.image.load(photo.imgname)
 					screen.blit(newimg,(photoX,photoY))
@@ -181,6 +182,7 @@ class MatchGame:
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
 						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
+							pygame.draw.rect(screen, (0, 250, 0), (answerX, 200, 125, 100), 5)
 							screen.blit(font.render("Correct", True, (0,250,0)),(300,600))
 							pygame.display.flip()
 							wait = True
@@ -195,7 +197,9 @@ class MatchGame:
 							score += 1
 						else:
 							keepwaiting = False
+							pygame.draw.rect(screen, (250, 0, 0), (answerX, 200, 125, 100), 5)
 							screen.blit(font.render("Incorrect", True, (250,0,0)),(300,600))
+							screen.blit(font.render("Press any key to continue", True, (255,255,255)),(20,900))
 							pygame.display.flip()
 							wait = True
 							while wait:
