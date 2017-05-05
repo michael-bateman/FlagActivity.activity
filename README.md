@@ -76,3 +76,7 @@ __Note:__ Michael is absent
 	- Changed all flag dimensions
 * Data collection (Troy)
 	- Collected most of the flags of countries
+
+### Wednesday May 3 - In class
+
+* Continuted programming (Michael)

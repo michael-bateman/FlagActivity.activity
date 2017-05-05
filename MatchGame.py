@@ -11,6 +11,7 @@ class MatchGame:
 
 	def startScreen(self):
 		startmsg = "FLAG MATCHING GAME"
+		self.backgroundimg = "resources/background.png"
 		screen = pygame.display.get_surface()
 		font1 = pygame.font.Font(None,150)
 		font2 = pygame.font.Font(None,75)
@@ -23,7 +24,7 @@ class MatchGame:
 		wait = True
 		while wait:
 			screen.fill((255,255,255))
-			screen.blit(pygame.image.load("resources/background.png"), (0,150))
+			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			screen.blit(font1.render(startmsg, True, (0, 0, 0)),(150,50))
 			screen.blit(font2.render("Press 's' to start", True, (0, 0, 0)),(150,150))
 			screen.blit(font2.render("Press 'q' to quit", True, (0, 0, 0)),(150,250))
@@ -42,7 +43,7 @@ class MatchGame:
 		invalid = False
 		while wait:
 			screen.fill((255,255,255))
-			screen.blit(pygame.image.load("resources/background.png"), (0,150))
+			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			screen.blit(font1.render("Level Selector", True, (0, 0, 0)),(150,50))
 			screen.blit(font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
 			screen.blit(font3.render("Level 1 (Easy) - 3 flags", True, (0, 0, 0)), (150,250))
@@ -142,7 +143,8 @@ class MatchGame:
 			#while Gtk.events_pending():
 			#	Gtk.main_iteration()
 
-			screen.fill((0,0,0))
+			screen.fill((255,255,255))
+			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			widthofphoto = 125
 			photoX = 50
 			photoY = 200
@@ -160,9 +162,9 @@ class MatchGame:
 				except:
 					print("Can not find image " + photo.imgname)
 
-			text = font.render(msg, True, (250, 250, 250))
+			text = font.render(msg, True, (0, 0, 0))
 			screen.blit(text,(textRect.x,textRect.y))
-			scoretext = font.render("Score: " + str(score), True, (250, 250, 250))
+			scoretext = font.render("Score: " + str(score), True, (0, 0, 0))
 			screen.blit(scoretext,(800,50))
 			pygame.display.flip()
 
@@ -182,34 +184,23 @@ class MatchGame:
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
 						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
-							pygame.draw.rect(screen, (0, 250, 0), (answerX, 200, 125, 100), 5)
 							screen.blit(font.render("Correct", True, (0,250,0)),(300,600))
-							pygame.display.flip()
-							wait = True
-							while wait:
-								for event in pygame.event.get():
-									if event.type == pygame.QUIT:
-										sys.exit()
-									elif event.type == pygame.MOUSEBUTTONDOWN:
-										wait = False
-									elif event.type == pygame.KEYDOWN:
-										wait = False
 							score += 1
 						else:
 							keepwaiting = False
-							pygame.draw.rect(screen, (250, 0, 0), (answerX, 200, 125, 100), 5)
 							screen.blit(font.render("Incorrect", True, (250,0,0)),(300,600))
-							screen.blit(font.render("Press any key to continue", True, (255,255,255)),(20,900))
-							pygame.display.flip()
-							wait = True
-							while wait:
-								for event in pygame.event.get():
-									if event.type == pygame.QUIT:
-										sys.exit()
-									elif event.type == pygame.MOUSEBUTTONDOWN:
-										wait = False
-									elif event.type == pygame.KEYDOWN:
-										wait = False
+						screen.blit(font.render("Press any key to continue", True, (0,0,0)),(20,700))
+						pygame.draw.rect(screen, (0, 255, 0), (answerX, 200, 125, 100), 5)
+						pygame.display.flip()
+						wait = True
+						while wait:
+							for event in pygame.event.get():
+								if event.type == pygame.QUIT:
+									sys.exit()
+								elif event.type == pygame.MOUSEBUTTONDOWN:
+									wait = False
+								elif event.type == pygame.KEYDOWN:
+									wait = False
 
 		if score >= self.highscore:
 			file = open("highscore.txt", "w")
