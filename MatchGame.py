@@ -97,9 +97,6 @@ class MatchGame:
 				seventh = random.choice(os.listdir(disklocation))
 				flag7 = Photo(os.path.abspath(disklocation + "/" + seventh),first[:-4],False)
 			
-			#final = random.choice(os.listdir(disklocation)) #adds 4 flags
-
-			#flag4 = Photo(os.path.abspath(disklocation + "/" + final),answer[:-4],False) Adds 4 flags
 			if self.level == 1:
 				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or first == second or first == third or second == third:
 					pass
@@ -221,7 +218,25 @@ class MatchGame:
 		pygame.display.flip()
 		time.sleep(10) #for testing only
 
-		#There will be a screen congratulating the user of his/her new high score
+	def finishScreen(self):
+		screen = pygame.display.get_surface()
+		font = pygame.font.Font(None, 75)
+		screen.fill((255,255,255))
+		screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+		screen.blit(font.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(150,50))
+		keepwaiting = True
+		while keepwaiting:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					sys.exit()
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_q:
+						sys.exit()
+					else:
+						#where will have a screeen variable to go agian.
+						# Ends the for loop
+				elif event.type == pygame.MOUSEBUTTONDOWN:
+					#same as the above if statement
 
 def main():
 	pygame.init()
@@ -230,6 +245,7 @@ def main():
 	game = MatchGame()
 	game.startScreen()
 	game.run()
+	#game.finishScreen()
 
 if __name__ == "__main__":
 	main()

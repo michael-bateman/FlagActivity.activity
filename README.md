@@ -2,7 +2,7 @@
 __By: Michael Bateman and Troy Boydell__
 ## About
 
-_This project is still a work in project (WIP) so this is not the final product.  Look below for the update/change log_
+_This project is still a work in progress (WIP) so this is not the final product.  Look below for the update/change log_
 
 Made during a grade 9 computer science class.
 
@@ -80,3 +80,8 @@ __Note:__ Michael is absent
 ### Wednesday May 3 - In class
 
 * Continuted programming (Michael)
+
+### Friday May 5 - In class
+
+* Continued programming (Michael)
+* Start tutorial (Troy)
