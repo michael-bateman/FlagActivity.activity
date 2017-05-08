@@ -85,3 +85,9 @@ __Note:__ Michael is absent
 
 * Continued programming (Michael)
 * Start tutorial (Troy)
+
+### Saturday May 6 - In class
+
+* Continue programming (Michael)
+	- Add in incorrect answer when clicked
+	- Fix some of the clicking coordinate issues

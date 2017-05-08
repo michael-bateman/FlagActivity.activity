@@ -9,9 +9,11 @@ from Photo import Photo
 
 class MatchGame:
 
-	def startScreen(self):
-		startmsg = "FLAG MATCHING GAME"
+	def __init__(self):
+		self.restart = True
 		self.backgroundimg = "resources/background.png"
+
+	def startScreen(self):
 		screen = pygame.display.get_surface()
 		font1 = pygame.font.Font(None,150)
 		font2 = pygame.font.Font(None,75)
@@ -25,9 +27,9 @@ class MatchGame:
 		while wait:
 			screen.fill((255,255,255))
 			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
-			screen.blit(font1.render(startmsg, True, (0, 0, 0)),(150,50))
-			screen.blit(font2.render("Press 's' to start", True, (0, 0, 0)),(150,150))
-			screen.blit(font2.render("Press 'q' to quit", True, (0, 0, 0)),(150,250))
+			screen.blit(font1.render("FLAG MATCHING GAME", True, (0, 0, 0)),(150,50))
+			screen.blit(font2.render("Press 'S' to start", True, (0, 0, 0)),(150,150))
+			screen.blit(font2.render("Press 'Q' to quit", True, (0, 0, 0)),(150,250))
 			screen.blit(font2.render("Highscore: " + self.highscore, True, (0,0,0)), (1000,150))
 			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
 			pygame.display.flip()
@@ -123,6 +125,7 @@ class MatchGame:
 					returnlist = [flag1,flag2,flag3,flag4,flag5,flag6,flag7]
 		shuffledList = sorted(returnlist, key=lambda k: random.random())
 		return shuffledList
+
 	def run(self):
 		screen = pygame.display.get_surface()
 		font = pygame.font.Font(None, 75)
@@ -131,10 +134,10 @@ class MatchGame:
 		textRect = text.get_rect()
 		textRect.x = 150 
 		textRect.y = 50
-		score = 0
+		self.score = 0
 		gmround = 0
 		self.highscore = int(self.highscore)
-		while gmround <= 10: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
+		while gmround <= 25: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
 			gmround += 1
 
 			#while Gtk.events_pending():
@@ -161,7 +164,7 @@ class MatchGame:
 
 			text = font.render(msg, True, (0, 0, 0))
 			screen.blit(text,(textRect.x,textRect.y))
-			scoretext = font.render("Score: " + str(score), True, (0, 0, 0))
+			scoretext = font.render("Score: " + str(self.score), True, (0, 0, 0))
 			screen.blit(scoretext,(800,50))
 			pygame.display.flip()
 
@@ -179,13 +182,32 @@ class MatchGame:
 							file.close()
 						return
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
-						if pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
+						if 0 <= pygame.mouse.get_pos()[0] <= 50 or 175 <= pygame.mouse.get_pos()[0] <= 250 or 375 <= pygame.mouse.get_pos()[0] <= 450 or 575 <= pygame.mouse.get_pos()[0] <= 650 or 775 <= pygame.mouse.get_pos()[0] <= 850 or 975 <= pygame.mouse.get_pos()[0] <= 1050 or 1175 <= pygame.mouse.get_pos()[0] <= 1250 or 1375 <= pygame.mouse.get_pos()[0]:
+							break
+						elif 175 >= pygame.mouse.get_pos()[1] or 300 <= pygame.mouse.get_pos()[1]:
+							break
+						elif pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
 							screen.blit(font.render("Correct", True, (0,250,0)),(300,600))
-							score += 1
+							self.score += 1
 						else:
 							keepwaiting = False
+							if 50 <= pygame.mouse.get_pos()[0] <= 175:
+								selectionX = 50
+							elif 250 <= pygame.mouse.get_pos()[0] <= 375:
+								selectionX = 250
+							elif 450 <= pygame.mouse.get_pos()[0] <= 575:
+								selectionX = 450
+							elif 650 <= pygame.mouse.get_pos()[0] <= 775:
+								selectionX = 650
+							elif 850 <= pygame.mouse.get_pos()[0] <= 975:
+								selectionX = 850
+							elif 1050 <= pygame.mouse.get_pos()[0] <= 1175:
+								selectionX = 1050
+							elif 1250 <= pygame.mouse.get_pos()[0] <= 1375:
+								selectionX = 1250
 							screen.blit(font.render("Incorrect", True, (250,0,0)),(300,600))
+							pygame.draw.rect(screen, (255, 0, 0), (selectionX, 200, 125, 100), 5)
 						screen.blit(font.render("Press any key to continue", True, (0,0,0)),(20,700))
 						pygame.draw.rect(screen, (0, 255, 0), (answerX, 200, 125, 100), 5)
 						pygame.display.flip()
@@ -199,11 +221,12 @@ class MatchGame:
 								elif event.type == pygame.KEYDOWN:
 									wait = False
 
-		if score >= self.highscore:
+		if self.score >= self.highscore:
 			file = open("highscore.txt", "w")
-			file.write(str(score))
+			file.write(str(self.score))
 			file.close()
 			self.highScoreMessage()
+		self.finishScreen()
 						
 	def highScoreMessage(self):
 		file = open("highscore.txt", "r")
@@ -220,10 +243,13 @@ class MatchGame:
 
 	def finishScreen(self):
 		screen = pygame.display.get_surface()
-		font = pygame.font.Font(None, 75)
+		font1 = pygame.font.Font(None, 75)
+		font2 = pygame.font.Font(None, 50)
 		screen.fill((255,255,255))
 		screen.blit(pygame.image.load(self.backgroundimg), (0,150))
-		screen.blit(font.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(150,50))
+		screen.blit(font2.render("Score: " + str(self.score), True, (0,0,0)),(150,50))
+		screen.blit(font1.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(300,50))
+		pygame.display.flip()
 		keepwaiting = True
 		while keepwaiting:
 			for event in pygame.event.get():
@@ -233,19 +259,21 @@ class MatchGame:
 					if event.key == pygame.K_q:
 						sys.exit()
 					else:
-						#where will have a screeen variable to go agian.
-						# Ends the for loop
+						self.restart = True
+						keepwaiting = False
 				elif event.type == pygame.MOUSEBUTTONDOWN:
-					#same as the above if statement
+					self.restart = True
+					keepwaiting = False
 
 def main():
 	pygame.init()
 	pygame.display.set_mode((0,0),pygame.RESIZABLE)
 	pygame.display.set_caption("Flag Game")
 	game = MatchGame()
-	game.startScreen()
-	game.run()
-	#game.finishScreen()
+	while game.restart:
+		game.restart = False
+		game.startScreen()
+		game.run()
 
 if __name__ == "__main__":
 	main()
