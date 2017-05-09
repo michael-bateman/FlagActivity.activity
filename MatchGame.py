@@ -12,12 +12,12 @@ class MatchGame:
 	def __init__(self):
 		self.restart = True
 		self.backgroundimg = "resources/background.png"
+		self.screen = pygame.display.get_surface()
+		self.font1 = pygame.font.Font(None,150)
+		self.font2 = pygame.font.Font(None,75)
+		self.font3 = pygame.font.Font(None,40)
 
 	def startScreen(self):
-		screen = pygame.display.get_surface()
-		font1 = pygame.font.Font(None,150)
-		font2 = pygame.font.Font(None,75)
-		font3 = pygame.font.Font(None,40)
 		# Can be added on OLPC to load other fonts
 		#pygame.font.SysFont()
 		file = open("highscore.txt", "r")
@@ -25,13 +25,13 @@ class MatchGame:
 		file.close()
 		wait = True
 		while wait:
-			screen.fill((255,255,255))
-			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
-			screen.blit(font1.render("FLAG MATCHING GAME", True, (0, 0, 0)),(150,50))
-			screen.blit(font2.render("Press 'S' to start", True, (0, 0, 0)),(150,150))
-			screen.blit(font2.render("Press 'Q' to quit", True, (0, 0, 0)),(150,250))
-			screen.blit(font2.render("Highscore: " + self.highscore, True, (0,0,0)), (1000,150))
-			screen.blit(font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
+			self.screen.fill((255,255,255))
+			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+			self.screen.blit(self.font1.render("FLAG MATCHING GAME", True, (0, 0, 0)),(150,50))
+			self.screen.blit(self.font2.render("Press 'S' to start", True, (0, 0, 0)),(150,150))
+			self.screen.blit(self.font2.render("Press 'Q' to quit", True, (0, 0, 0)),(150,250))
+			self.screen.blit(self.font2.render("Highscore: " + self.highscore, True, (0,0,0)), (1000,150))
+			self.screen.blit(self.font3.render("By: Michael Bateman and Troy Boydell", True, (0, 0, 0)), (150,850))
 			pygame.display.flip()
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -44,16 +44,16 @@ class MatchGame:
 		wait = True
 		invalid = False
 		while wait:
-			screen.fill((255,255,255))
-			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
-			screen.blit(font1.render("Level Selector", True, (0, 0, 0)),(150,50))
-			screen.blit(font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
-			screen.blit(font3.render("Level 1 (Easy) - 3 flags", True, (0, 0, 0)), (150,250))
-			screen.blit(font3.render("Level 2 (Medium) - 4 flags", True, (0, 0, 0)), (150,300))
-			screen.blit(font3.render("Level 3 (Hard) - 5 flags", True, (0, 0, 0)), (150,350))
-			screen.blit(font3.render("Level 4 (Very Hard) - 7 flags", True, (0, 0, 0)), (150,400))
+			self.screen.fill((255,255,255))
+			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+			self.screen.blit(self.font1.render("Level Selector", True, (0, 0, 0)),(150,50))
+			self.screen.blit(self.font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
+			self.screen.blit(self.font3.render("Level 1 (Easy) - 2 flags", True, (0, 0, 0)), (150,250))
+			self.screen.blit(self.font3.render("Level 2 (Medium) - 3 flags", True, (0, 0, 0)), (150,300))
+			self.screen.blit(self.font3.render("Level 3 (Hard) - 4 flags", True, (0, 0, 0)), (150,350))
+			self.screen.blit(self.font3.render("Level 4 (Very Hard) - 5 flags", True, (0, 0, 0)), (150,400))
 			if invalid == True:
-				screen.blit(font2.render("Invalid selection", True, (255, 0, 0)), (400,600))
+				self.screen.blit(self.font2.render("Invalid selection", True, (255, 0, 0)), (400,600))
 			pygame.display.flip()
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -83,54 +83,48 @@ class MatchGame:
 			if self.level == 1 or 2 or 3 or 4:
 				first = random.choice(os.listdir(disklocation))
 				second = random.choice(os.listdir(disklocation))
-				third = random.choice(os.listdir(disklocation))
 				flag1 = Photo(os.path.abspath(disklocation + "/" + first),first[:-4],True)
 				flag2 = Photo(os.path.abspath(disklocation + "/" + second),first[:-4],False)
-				flag3 = Photo(os.path.abspath(disklocation + "/" + third),first[:-4],False)
 			if self.level == 2 or 3 or 4:
+				third = random.choice(os.listdir(disklocation))
+				flag3 = Photo(os.path.abspath(disklocation + "/" + third),first[:-4],False)
+			if self.level == 3 or 4:
 				fourth = random.choice(os.listdir(disklocation))
 				flag4 = Photo(os.path.abspath(disklocation + "/" + fourth),first[:-4],False)
-			if self.level == 3 or 4:
+			if self.level == 4:
 				fifth = random.choice(os.listdir(disklocation))
 				flag5 = Photo(os.path.abspath(disklocation + "/" + fifth),first[:-4],False)
-			if self.level == 4:
-				sixth = random.choice(os.listdir(disklocation))
-				flag6 = Photo(os.path.abspath(disklocation + "/" + sixth),first[:-4],False)
-				seventh = random.choice(os.listdir(disklocation))
-				flag7 = Photo(os.path.abspath(disklocation + "/" + seventh),first[:-4],False)
 			
 			if self.level == 1:
+				if first == ".DS_Store" or second == ".DS_Store" or first == second:
+					pass
+				else:
+					keeptrying = False
+					returnlist = [flag1,flag2]
+			elif self.level == 2:
 				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or first == second or first == third or second == third:
 					pass
 				else:
 					keeptrying = False
 					returnlist = [flag1,flag2,flag3]
-			elif self.level == 2:
+			elif self.level == 3:
 				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or first == second or first == third or first == fourth or second == third or second == fourth or third == fourth:
 					pass
 				else:
 					keeptrying = False
 					returnlist = [flag1,flag2,flag3,flag4]
-			elif self.level == 3:
+			elif self.level == 4:
 				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or fifth == ".DS_Store" or first == second or first == third or first == fourth or first == fifth or second == third or second == fourth or second == fifth or third == fourth or third == fifth or fourth == fifth:
 					pass
 				else:
 					keeptrying = False
 					returnlist = [flag1,flag2,flag3,flag4,flag5]
-			elif self.level == 4:
-				if first == ".DS_Store" or second == ".DS_Store" or third == ".DS_Store" or fourth == ".DS_Store" or fifth == ".DS_Store" or sixth == ".DS_Store" or first == second or first == third or first == fourth or first == fifth or first == sixth or first == seventh or second == third or second == fourth or second == fifth or second == sixth or second == seventh or third == fourth or third == fifth or third == sixth or third == seventh or fourth == fifth or fourth == sixth or fourth == seventh or fifth == sixth or fifth == seventh or sixth == seventh:
-					pass
-				else:
-					keeptrying = False
-					returnlist = [flag1,flag2,flag3,flag4,flag5,flag6,flag7]
 		shuffledList = sorted(returnlist, key=lambda k: random.random())
 		return shuffledList
 
 	def run(self):
-		screen = pygame.display.get_surface()
-		font = pygame.font.Font(None, 75)
 		msg = ""
-		text = font.render(msg, True, (250, 250, 250))
+		text = self.font2.render(msg, True, (250, 250, 250))
 		textRect = text.get_rect()
 		textRect.x = 150 
 		textRect.y = 50
@@ -143,8 +137,8 @@ class MatchGame:
 			#while Gtk.events_pending():
 			#	Gtk.main_iteration()
 
-			screen.fill((255,255,255))
-			screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+			self.screen.fill((255,255,255))
+			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			widthofphoto = 125
 			photoX = 50
 			photoY = 200
@@ -157,15 +151,15 @@ class MatchGame:
 					answerX = clickRect[0]
 				try:
 					newimg = pygame.image.load(photo.imgname)
-					screen.blit(newimg,(photoX,photoY))
+					self.screen.blit(newimg,(photoX,photoY))
 					photoX = photoX + 200
 				except:
 					print("Can not find image " + photo.imgname)
 
-			text = font.render(msg, True, (0, 0, 0))
-			screen.blit(text,(textRect.x,textRect.y))
-			scoretext = font.render("Score: " + str(self.score), True, (0, 0, 0))
-			screen.blit(scoretext,(800,50))
+			text = self.font2.render(msg, True, (0, 0, 0))
+			self.screen.blit(text,(textRect.x,textRect.y))
+			scoretext = self.font2.render("Score: " + str(self.score), True, (0, 0, 0))
+			self.screen.blit(scoretext,(800,50))
 			pygame.display.flip()
 
 			keepwaiting = True
@@ -182,13 +176,13 @@ class MatchGame:
 							file.close()
 						return
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
-						if 0 <= pygame.mouse.get_pos()[0] <= 50 or 175 <= pygame.mouse.get_pos()[0] <= 250 or 375 <= pygame.mouse.get_pos()[0] <= 450 or 575 <= pygame.mouse.get_pos()[0] <= 650 or 775 <= pygame.mouse.get_pos()[0] <= 850 or 975 <= pygame.mouse.get_pos()[0] <= 1050 or 1175 <= pygame.mouse.get_pos()[0] <= 1250 or 1375 <= pygame.mouse.get_pos()[0]:
+						if 0 <= pygame.mouse.get_pos()[0] <= 50 or 175 <= pygame.mouse.get_pos()[0] <= 250 or 375 <= pygame.mouse.get_pos()[0] <= 450 or 575 <= pygame.mouse.get_pos()[0] <= 650 or 775 <= pygame.mouse.get_pos()[0] <= 850 or 975 <= pygame.mouse.get_pos()[0]:
 							break
 						elif 175 >= pygame.mouse.get_pos()[1] or 300 <= pygame.mouse.get_pos()[1]:
 							break
 						elif pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
-							screen.blit(font.render("Correct", True, (0,250,0)),(300,600))
+							self.screen.blit(self.font2.render("Correct", True, (0,250,0)),(300,600))
 							self.score += 1
 						else:
 							keepwaiting = False
@@ -202,14 +196,10 @@ class MatchGame:
 								selectionX = 650
 							elif 850 <= pygame.mouse.get_pos()[0] <= 975:
 								selectionX = 850
-							elif 1050 <= pygame.mouse.get_pos()[0] <= 1175:
-								selectionX = 1050
-							elif 1250 <= pygame.mouse.get_pos()[0] <= 1375:
-								selectionX = 1250
-							screen.blit(font.render("Incorrect", True, (250,0,0)),(300,600))
-							pygame.draw.rect(screen, (255, 0, 0), (selectionX, 200, 125, 100), 5)
-						screen.blit(font.render("Press any key to continue", True, (0,0,0)),(20,700))
-						pygame.draw.rect(screen, (0, 255, 0), (answerX, 200, 125, 100), 5)
+							self.screen.blit(self.font2.render("Incorrect", True, (250,0,0)),(300,600))
+							pygame.draw.rect(self.screen, (255, 0, 0), (selectionX, 200, 125, 100), 5)
+						self.screen.blit(self.font2.render("Press any key to continue", True, (0,0,0)),(20,700))
+						pygame.draw.rect(self.screen, (0, 255, 0), (answerX, 200, 125, 100), 5)
 						pygame.display.flip()
 						wait = True
 						while wait:
@@ -232,23 +222,19 @@ class MatchGame:
 		file = open("highscore.txt", "r")
 		highscore = file.read()
 		file.close()
-		screen = pygame.display.get_surface()
-		screen.fill((255,255,255))
-		font1 = pygame.font.Font(None,150)
-		font2 = pygame.font.Font(None,75)
-		screen.blit(font1.render("NEW HIGH SCORE!", True, (0, 0, 0)),(150,50))
-		screen.blit(font1.render("Your new high score is " + highscore, True, (0, 0, 0)),(150,200))
+		self.screen.fill((255,255,255))
+		self.screen.blit(self.font1.render("NEW HIGH SCORE!", True, (0, 0, 0)),(150,50))
+		self.screen.blit(self.font1.render("Your new high score is " + highscore, True, (0, 0, 0)),(150,200))
 		pygame.display.flip()
 		time.sleep(10) #for testing only
 
 	def finishScreen(self):
-		screen = pygame.display.get_surface()
 		font1 = pygame.font.Font(None, 75)
 		font2 = pygame.font.Font(None, 50)
-		screen.fill((255,255,255))
-		screen.blit(pygame.image.load(self.backgroundimg), (0,150))
-		screen.blit(font2.render("Score: " + str(self.score), True, (0,0,0)),(150,50))
-		screen.blit(font1.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(300,50))
+		self.screen.fill((255,255,255))
+		self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+		self.screen.blit(self.font2.render("Score: " + str(self.score), True, (0,0,0)),(150,50))
+		self.screen.blit(self.font2.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(300,50))
 		pygame.display.flip()
 		keepwaiting = True
 		while keepwaiting:
@@ -274,6 +260,7 @@ def main():
 		game.restart = False
 		game.startScreen()
 		game.run()
+		game.finishScreen()
 
 if __name__ == "__main__":
 	main()

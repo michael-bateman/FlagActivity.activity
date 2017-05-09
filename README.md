@@ -86,8 +86,16 @@ __Note:__ Michael is absent
 * Continued programming (Michael)
 * Start tutorial (Troy)
 
-### Saturday May 6 - In class
+### Saturday May 6 - Out of class
 
 * Continue programming (Michael)
 	- Add in incorrect answer when clicked
 	- Fix some of the clicking coordinate issues
+
+### Tuesday May 9 - In class
+
+* Continue programming (Michael)
+  - Clean up program with game variables.
+  - Change the scores and amount of flags to cooperate with the OLPC.
+* Work on the tutorial (Troy)
+  - Original game information
