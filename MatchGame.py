@@ -94,6 +94,8 @@ class MatchGame:
 			if self.level == 4:
 				fifth = random.choice(os.listdir(disklocation))
 				flag5 = Photo(os.path.abspath(disklocation + "/" + fifth),first[:-4],False)
+
+			self.countryimg = pygame.image.load("countryimg/Canada.png")
 			
 			if self.level == 1:
 				if first == ".DS_Store" or second == ".DS_Store" or first == second:
@@ -149,6 +151,7 @@ class MatchGame:
 					msg = photo.photoname
 					clickRect = [photoX,photoX+widthofphoto]
 					answerX = clickRect[0]
+					self.screen.blit(self.countryimg,(50,400))
 				try:
 					newimg = pygame.image.load(photo.imgname)
 					self.screen.blit(newimg,(photoX,photoY))
