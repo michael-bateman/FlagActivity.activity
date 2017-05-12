@@ -4,6 +4,7 @@ import os
 import random
 import sys
 import time #only for testing
+import codecs
 from Photo import Photo
 #from gi.repository import Gtk
 
@@ -95,7 +96,10 @@ class MatchGame:
 				fifth = random.choice(os.listdir(disklocation))
 				flag5 = Photo(os.path.abspath(disklocation + "/" + fifth),first[:-4],False)
 
-			self.countryimg = pygame.image.load("countryimg/Canada.png")
+			try:
+				self.countryimg = pygame.image.load("countryimg/" + first)
+			except:
+				print("Could not find " + first)
 			
 			if self.level == 1:
 				if first == ".DS_Store" or second == ".DS_Store" or first == second:
@@ -148,7 +152,9 @@ class MatchGame:
 			clickRect = [50,250]
 			for photo in photos:
 				if (photo.answer == True):
-					msg = photo.photoname
+					msgencoded = photo.photoname
+					#msg = msgencoded.decode('string-escape').decode("utf-8") #uncomment this when running on the OLPC
+					msg = msgencoded
 					clickRect = [photoX,photoX+widthofphoto]
 					answerX = clickRect[0]
 					self.screen.blit(self.countryimg,(50,400))

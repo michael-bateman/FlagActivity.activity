@@ -99,3 +99,7 @@ __Note:__ Michael is absent
   - Change the scores and amount of flags to cooperate with the OLPC.
 * Work on the tutorial (Troy)
   - Original game information
+
+### Wednesday May 10 - Out of class
+
+* Continue programming (Michael)
