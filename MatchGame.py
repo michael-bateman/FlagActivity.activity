@@ -17,6 +17,7 @@ class MatchGame:
 		self.font1 = pygame.font.Font(None,150)
 		self.font2 = pygame.font.Font(None,75)
 		self.font3 = pygame.font.Font(None,40)
+		self.flaghistory = []
 
 	def startScreen(self):
 		# Can be added on OLPC to load other fonts
@@ -125,6 +126,12 @@ class MatchGame:
 				else:
 					keeptrying = False
 					returnlist = [flag1,flag2,flag3,flag4,flag5]
+
+			for i in range(len(self.flaghistory)):
+				if first == self.flaghistory[i]:
+					keeptrying = True
+					break
+			self.flaghistory.append(first)
 		shuffledList = sorted(returnlist, key=lambda k: random.random())
 		return shuffledList
 
@@ -164,8 +171,10 @@ class MatchGame:
 					photoX = photoX + 200
 				except:
 					print("Can not find image " + photo.imgname)
-
-			text = self.font2.render(msg, True, (0, 0, 0))
+			if len(msg) <= 20:
+				text = self.font2.render(msg, True, (0, 0, 0))
+			else:
+				text = self.font3.render(msg, True, (0, 0, 0))
 			self.screen.blit(text,(textRect.x,textRect.y))
 			scoretext = self.font2.render("Score: " + str(self.score), True, (0, 0, 0))
 			self.screen.blit(scoretext,(800,50))
@@ -183,7 +192,7 @@ class MatchGame:
 							file = open("highscore.txt", "w")
 							file.write(str(score))
 							file.close()
-						return
+						sys.exit()
 					elif (event.type == pygame.MOUSEBUTTONDOWN):
 						if 0 <= pygame.mouse.get_pos()[0] <= 50 or 175 <= pygame.mouse.get_pos()[0] <= 250 or 375 <= pygame.mouse.get_pos()[0] <= 450 or 575 <= pygame.mouse.get_pos()[0] <= 650 or 775 <= pygame.mouse.get_pos()[0] <= 850 or 975 <= pygame.mouse.get_pos()[0]:
 							break
@@ -232,18 +241,26 @@ class MatchGame:
 		highscore = file.read()
 		file.close()
 		self.screen.fill((255,255,255))
+		self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 		self.screen.blit(self.font1.render("NEW HIGH SCORE!", True, (0, 0, 0)),(150,50))
 		self.screen.blit(self.font1.render("Your new high score is " + highscore, True, (0, 0, 0)),(150,200))
+		self.screen.blit(self.font2.render("Press any key to continue", True, (0, 0, 0)),(150,300))
 		pygame.display.flip()
-		time.sleep(10) #for testing only
+		keepwaiting = True
+		while keepwaiting:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					sys.exit()
+				elif event.type == pygame.KEYDOWN:
+					keepwaiting = False
+				elif event.type == pygame.MOUSEBUTTONDOWN:
+					keepwaiting = False
 
 	def finishScreen(self):
-		font1 = pygame.font.Font(None, 75)
-		font2 = pygame.font.Font(None, 50)
 		self.screen.fill((255,255,255))
 		self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 		self.screen.blit(self.font2.render("Score: " + str(self.score), True, (0,0,0)),(150,50))
-		self.screen.blit(self.font2.render("Press 'Q' to quit and any key to play agian", True, (0, 0, 0)),(300,50))
+		self.screen.blit(self.font2.render("Press 'Q' to quit and any key to play again", True, (0, 0, 0)),(150,150))
 		pygame.display.flip()
 		keepwaiting = True
 		while keepwaiting:
