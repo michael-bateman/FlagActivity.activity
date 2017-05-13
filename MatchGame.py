@@ -3,7 +3,6 @@ import pygame
 import os
 import random
 import sys
-import time #only for testing
 import codecs
 from Photo import Photo
 #from gi.repository import Gtk
@@ -20,8 +19,7 @@ class MatchGame:
 		self.flaghistory = []
 
 	def startScreen(self):
-		# Can be added on OLPC to load other fonts
-		#pygame.font.SysFont()
+		#pygame.font.SysFont() #This can be used to add special fonts
 		file = open("highscore.txt", "r")
 		self.highscore = file.read()
 		file.close()
@@ -49,11 +47,12 @@ class MatchGame:
 			self.screen.fill((255,255,255))
 			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			self.screen.blit(self.font1.render("Level Selector", True, (0, 0, 0)),(150,50))
-			self.screen.blit(self.font2.render("Type the level you would like (1-4)", True, (0, 0, 0)),(150,150))
-			self.screen.blit(self.font3.render("Level 1 (Easy) - 2 flags", True, (0, 0, 0)), (150,250))
-			self.screen.blit(self.font3.render("Level 2 (Medium) - 3 flags", True, (0, 0, 0)), (150,300))
-			self.screen.blit(self.font3.render("Level 3 (Hard) - 4 flags", True, (0, 0, 0)), (150,350))
-			self.screen.blit(self.font3.render("Level 4 (Very Hard) - 5 flags", True, (0, 0, 0)), (150,400))
+			self.screen.blit(self.font2.render("Type the level you would like using number keys (1-4)", True, (0, 0, 0)),(150,150))
+			leveltext = ["Level 1 - (Easy) - 2 flags", "Level 2 (Medium) - 3 flags", "Level 3 (Hard) - 4 flags", "Level 4 (Very Hard) - 5 flags"]
+			textlocation = 200
+			for i in range(len(leveltext)):
+				textlocation += 50
+				self.screen.blit(self.font3.render(leveltext[i], True, (0, 0, 0)), (150,textlocation))
 			if invalid == True:
 				self.screen.blit(self.font2.render("Invalid selection", True, (255, 0, 0)), (400,600))
 			pygame.display.flip()
@@ -77,6 +76,27 @@ class MatchGame:
 						sys.exit()
 					else:
 						invalid = True
+
+	def instructionScreen(self):
+		wait = True
+		while wait:
+			self.screen.fill((255, 255, 255))
+			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
+			self.screen.blit(self.font1.render("Instructions - Level " + str(self.level), True, (0, 0, 0)),(150, 50))
+			instructiontext = ["You will be presented with " + str(self.level + 1) + " flags to choose from", "There will be 20 rounds", "Choose the correct flag by clicking the flag image with your mouse", "There will be a map with the location highlighted", "Don't cheat and lookup the location", "At any time during the game, press the 'Q' on your keyboard to quit the game", "At any time during the game, press 'I' to see the instructions again", "Are you ready? Press any key to continue"]
+			location = 150
+			for i in range(len(instructiontext)):
+				location += 50
+				self.screen.blit(self.font3.render(instructiontext[i], True, (0, 0, 0)),(150, location))
+			pygame.display.flip()
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					sys.exit()
+				elif event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_q:
+						sys.exit()
+					else:
+						wait = False
 
 	def getRandomHand(self):
 		keeptrying = True
@@ -144,7 +164,9 @@ class MatchGame:
 		self.score = 0
 		gmround = 0
 		self.highscore = int(self.highscore)
-		while gmround <= 25: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
+		soundcorrect = pygame.mixer.Sound("sounds/chime.wav")
+		soundwrong = pygame.mixer.Sound("sounds/buzzer.wav")
+		while gmround <= 2: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
 			gmround += 1
 
 			#while Gtk.events_pending():
@@ -181,7 +203,7 @@ class MatchGame:
 			pygame.display.flip()
 
 			keepwaiting = True
-			while (keepwaiting):
+			while keepwaiting:
 
 				#while Gtk.events_pending():
 				#	Gtk.main_iteration()
@@ -193,7 +215,14 @@ class MatchGame:
 							file.write(str(score))
 							file.close()
 						sys.exit()
-					elif (event.type == pygame.MOUSEBUTTONDOWN):
+					elif event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_q:
+							sys.exit()
+						elif event.key == pygame.K_i:
+							self.instructionScreen()
+							keepwaiting = False
+							gmround -= 1
+					elif event.type == pygame.MOUSEBUTTONDOWN:
 						if 0 <= pygame.mouse.get_pos()[0] <= 50 or 175 <= pygame.mouse.get_pos()[0] <= 250 or 375 <= pygame.mouse.get_pos()[0] <= 450 or 575 <= pygame.mouse.get_pos()[0] <= 650 or 775 <= pygame.mouse.get_pos()[0] <= 850 or 975 <= pygame.mouse.get_pos()[0]:
 							break
 						elif 175 >= pygame.mouse.get_pos()[1] or 300 <= pygame.mouse.get_pos()[1]:
@@ -201,9 +230,11 @@ class MatchGame:
 						elif pygame.mouse.get_pos()[0] >= clickRect[0] and pygame.mouse.get_pos()[0] < clickRect[1] and 145 <= pygame.mouse.get_pos()[1] <= 245:
 							keepwaiting = False
 							self.screen.blit(self.font2.render("Correct", True, (0,250,0)),(300,600))
+							soundcorrect.play()
 							self.score += 1
 						else:
 							keepwaiting = False
+							soundwrong.play()
 							if 50 <= pygame.mouse.get_pos()[0] <= 175:
 								selectionX = 50
 							elif 250 <= pygame.mouse.get_pos()[0] <= 375:
@@ -271,20 +302,19 @@ class MatchGame:
 					if event.key == pygame.K_q:
 						sys.exit()
 					else:
-						self.restart = True
 						keepwaiting = False
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					self.restart = True
-					keepwaiting = False
+						self.restart = True
+						# Why does this need 2 keydowns for both variables to be set???
+						
 
 def main():
 	pygame.init()
-	pygame.display.set_mode((0,0),pygame.RESIZABLE)
-	pygame.display.set_caption("Flag Game")
+	pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	game = MatchGame()
 	while game.restart:
 		game.restart = False
 		game.startScreen()
+		game.instructionScreen()
 		game.run()
 		game.finishScreen()
 

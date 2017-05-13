@@ -103,3 +103,15 @@ __Note:__ Michael is absent
 ### Wednesday May 10 - Out of class
 
 * Continue programming (Michael)
+
+### Friday May 12 - In class
+
+* Start debugging (Michael)
+* Work on on Tutorial (Troy)
+
+### Saturday May 13 - Out of class
+
+* Minor game enhancements (Michael)
+  - Add sound
+  - Make a feature so no flag will appear twice
+  - Better way to blit text through list
