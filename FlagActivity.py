@@ -14,7 +14,7 @@ sys.path.append('..')  # Import sugargame package from top directory.
 import sugargame.canvas
 
 # import MatchGame so it can be instantiated within Sugar wrapper
-import MatchGame
+import FlagGame
 
 class MatchActivity(sugar3.activity.activity.Activity):
     def __init__(self, handle):

@@ -1,6 +1,6 @@
 [Activity]
-name = MatchActivity
-bundle_id = org.sugarlabs.MatchActivity
-exec = sugar-activity MatchActivity.MatchActivity
+name = FlagGame
+bundle_id = org.sugarlabs.FlagActivity
+exec = sugar-activity FlagActivity.FlagActivity
 icon = activity-generic
 activity_version = 1

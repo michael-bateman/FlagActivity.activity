@@ -7,7 +7,7 @@ import codecs
 from Photo import Photo
 #from gi.repository import Gtk
 
-class MatchGame:
+class FlagGame:
 
 	def __init__(self):
 		self.restart = True
@@ -41,6 +41,7 @@ class MatchGame:
 						wait = False
 					elif event.key == pygame.K_q:
 						sys.exit()
+						
 		wait = True
 		invalid = False
 		while wait:
@@ -162,11 +163,12 @@ class MatchGame:
 		textRect.x = 150 
 		textRect.y = 50
 		self.score = 0
-		gmround = 0
+		gmround = 1
+		noofrounds = 20 #the number is the amount of flags to guess
 		self.highscore = int(self.highscore)
 		soundcorrect = pygame.mixer.Sound("sounds/chime.wav")
 		soundwrong = pygame.mixer.Sound("sounds/buzzer.wav")
-		while gmround <= 2: #the "10" is the amount of tries you want the user to be able to guess differtnt flags
+		while gmround <= noofrounds:able to guess flags
 			gmround += 1
 
 			#while Gtk.events_pending():
@@ -310,7 +312,7 @@ class MatchGame:
 def main():
 	pygame.init()
 	pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-	game = MatchGame()
+	game = FlagGame()
 	while game.restart:
 		game.restart = False
 		game.startScreen()
