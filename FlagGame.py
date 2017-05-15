@@ -180,7 +180,7 @@ class FlagGame:
 		self.highscore = int(self.highscore)
 		soundcorrect = pygame.mixer.Sound("sounds/chime.wav")
 		soundwrong = pygame.mixer.Sound("sounds/buzzer.wav")
-		while gmround <= noofrounds
+		while gmround <= noofrounds:
 			gmround += 1
 
 			while Gtk.events_pending():
