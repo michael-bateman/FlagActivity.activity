@@ -23,7 +23,7 @@ class MatchActivity(sugar3.activity.activity.Activity):
         self.paused = False
 
         # Create the game instance.
-        self.game = MatchGame.MatchGame()
+        self.game = FlagGame.FlagGame()
 
         # Build the activity toolbar.
         self.build_toolbar()

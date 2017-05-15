@@ -5,7 +5,7 @@ import random
 import sys
 import codecs
 from Photo import Photo
-#from gi.repository import Gtk
+from gi.repository import Gtk
 
 class FlagGame:
 
@@ -25,6 +25,10 @@ class FlagGame:
 		file.close()
 		wait = True
 		while wait:
+
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+
 			self.screen.fill((255,255,255))
 			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			self.screen.blit(self.font1.render("FLAG MATCHING GAME", True, (0, 0, 0)),(150,50))
@@ -45,6 +49,10 @@ class FlagGame:
 		wait = True
 		invalid = False
 		while wait:
+
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+
 			self.screen.fill((255,255,255))
 			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			self.screen.blit(self.font1.render("Level Selector", True, (0, 0, 0)),(150,50))
@@ -81,6 +89,10 @@ class FlagGame:
 	def instructionScreen(self):
 		wait = True
 		while wait:
+
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+
 			self.screen.fill((255, 255, 255))
 			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
 			self.screen.blit(self.font1.render("Instructions - Level " + str(self.level), True, (0, 0, 0)),(150, 50))
@@ -168,11 +180,11 @@ class FlagGame:
 		self.highscore = int(self.highscore)
 		soundcorrect = pygame.mixer.Sound("sounds/chime.wav")
 		soundwrong = pygame.mixer.Sound("sounds/buzzer.wav")
-		while gmround <= noofrounds:able to guess flags
+		while gmround <= noofrounds
 			gmround += 1
 
-			#while Gtk.events_pending():
-			#	Gtk.main_iteration()
+			while Gtk.events_pending():
+				Gtk.main_iteration()
 
 			self.screen.fill((255,255,255))
 			self.screen.blit(pygame.image.load(self.backgroundimg), (0,150))
@@ -207,8 +219,8 @@ class FlagGame:
 			keepwaiting = True
 			while keepwaiting:
 
-				#while Gtk.events_pending():
-				#	Gtk.main_iteration()
+				while Gtk.events_pending():
+					Gtk.main_iteration()
 
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
@@ -254,6 +266,10 @@ class FlagGame:
 						pygame.display.flip()
 						wait = True
 						while wait:
+
+							while Gtk.events_pending():
+								Gtk.main_iteration()
+
 							for event in pygame.event.get():
 								if event.type == pygame.QUIT:
 									sys.exit()
@@ -281,6 +297,10 @@ class FlagGame:
 		pygame.display.flip()
 		keepwaiting = True
 		while keepwaiting:
+
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					sys.exit()
@@ -297,6 +317,10 @@ class FlagGame:
 		pygame.display.flip()
 		keepwaiting = True
 		while keepwaiting:
+
+			while Gtk.events_pending():
+				Gtk.main_iteration()
+
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					sys.exit()
