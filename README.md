@@ -2,22 +2,26 @@
 __By: Michael Bateman and Troy Boydell__
 ## About
 
-_This project is still a work in progress (WIP) so this is not the final product.  Look below for the update/change log_
+This was my final project in my grade 9 computer science class.
 
-Made during a grade 9 computer science class.
+_This project is no longer being developed or fixed_
 
-Documentation is on it's way!
+## How to Run
 
-## Things that still need to be done:
+Well at this point, this application is not very good.  If you do want to run it, then you will need to meet the following requirements.
 
-- [x] - Add in `.txt` score files
-- [ ] - Change `.svg` logo
-- [ ] - Fix backgrounds (Troy and Michael)
-- [ ] - Do more programming work (Michael)
-- [ ] - Download all flags (can be found here: https://en.wikipedia.org/wiki/List_of_sovereign_states)
-- [ ] - Add sounds for correct/incorrect answers
-- [x] - Collect all flags (data) _- most collected, some are still remaining_
-- [ ] - Lot's more
+### System Requirements
+
+You will need a minimum of an XO (OLPC) 1.5 to run this program but 4.0 is strongly recommended.
+
+## Bugs
+
+At the current time, this project is no longer being developed. _If you find a bug, it will not be fixed by me_.
+
+You have a couple of options if you find a bug:
+
+1. You can fork the project and work on it!
+2. That's it!
 
 ## Changelog
 I guess we are not _changing_ anything but it's important to see what work is being done.
